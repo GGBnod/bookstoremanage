@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bookstoremanage.mapper.BookMapper">
+  <resultMap id="BaseResultMap" type="com.bookstoremanage.pojo.Book">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="mid" jdbcType="INTEGER" property="mid" />
+    <result column="booknumber" jdbcType="VARCHAR" property="booknumber" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="author" jdbcType="VARCHAR" property="author" />
+    <result column="buyingPrice" jdbcType="DECIMAL" property="buyingPrice" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="publis" jdbcType="VARCHAR" property="publis" />
+    <result column="stock" jdbcType="INTEGER" property="stock" />
+    <result column="introduce" jdbcType="VARCHAR" property="introduce" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, mid, booknumber, name, author, buyingPrice, price, publis, stock, introduce
+  </sql>
+  <select id="selectByExample" parameterType="com.bookstoremanage.pojo.BookExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from book
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from book
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from book
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.bookstoremanage.pojo.Book" useGeneratedKeys="true">
+    insert into book (mid, booknumber, name, 
+      author, buyingPrice, price, 
+      publis, stock, introduce
+      )
+    values (#{mid,jdbcType=INTEGER}, #{booknumber,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{author,jdbcType=VARCHAR}, #{buyingPrice,jdbcType=DECIMAL}, #{price,jdbcType=DECIMAL}, 
+      #{publis,jdbcType=VARCHAR}, #{stock,jdbcType=INTEGER}, #{introduce,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.bookstoremanage.pojo.Book" useGeneratedKeys="true">
+    insert into book
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="mid != null">
+        mid,
+      </if>
+      <if test="booknumber != null">
+        booknumber,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="author != null">
+        author,
+      </if>
+      <if test="buyingPrice != null">
+        buyingPrice,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="publis != null">
+        publis,
+      </if>
+      <if test="stock != null">
+        stock,
+      </if>
+      <if test="introduce != null">
+        introduce,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="mid != null">
+        #{mid,jdbcType=INTEGER},
+      </if>
+      <if test="booknumber != null">
+        #{booknumber,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null">
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="buyingPrice != null">
+        #{buyingPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="publis != null">
+        #{publis,jdbcType=VARCHAR},
+      </if>
+      <if test="stock != null">
+        #{stock,jdbcType=INTEGER},
+      </if>
+      <if test="introduce != null">
+        #{introduce,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bookstoremanage.pojo.Book">
+    update book
+    <set>
+      <if test="mid != null">
+        mid = #{mid,jdbcType=INTEGER},
+      </if>
+      <if test="booknumber != null">
+        booknumber = #{booknumber,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null">
+        author = #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="buyingPrice != null">
+        buyingPrice = #{buyingPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="publis != null">
+        publis = #{publis,jdbcType=VARCHAR},
+      </if>
+      <if test="stock != null">
+        stock = #{stock,jdbcType=INTEGER},
+      </if>
+      <if test="introduce != null">
+        introduce = #{introduce,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bookstoremanage.pojo.Book">
+    update book
+    set mid = #{mid,jdbcType=INTEGER},
+      booknumber = #{booknumber,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
+      buyingPrice = #{buyingPrice,jdbcType=DECIMAL},
+      price = #{price,jdbcType=DECIMAL},
+      publis = #{publis,jdbcType=VARCHAR},
+      stock = #{stock,jdbcType=INTEGER},
+      introduce = #{introduce,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

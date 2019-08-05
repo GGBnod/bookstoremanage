@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bookstoremanage.mapper.DetailsMapper">
+  <resultMap id="BaseResultMap" type="com.bookstoremanage.pojo.Details">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="eid" jdbcType="INTEGER" property="eid" />
+    <result column="inAndOut" jdbcType="VARCHAR" property="inAndOut" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="author" jdbcType="VARCHAR" property="author" />
+    <result column="publis" jdbcType="VARCHAR" property="publis" />
+    <result column="number" jdbcType="INTEGER" property="number" />
+    <result column="outdate" jdbcType="TIMESTAMP" property="outdate" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, eid, inAndOut, name, author, publis, number, outdate
+  </sql>
+  <select id="selectByExample" parameterType="com.bookstoremanage.pojo.DetailsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from details
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from details
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from details
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.bookstoremanage.pojo.Details" useGeneratedKeys="true">
+    insert into details (eid, inAndOut, name, 
+      author, publis, number, 
+      outdate)
+    values (#{eid,jdbcType=INTEGER}, #{inAndOut,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{author,jdbcType=VARCHAR}, #{publis,jdbcType=VARCHAR}, #{number,jdbcType=INTEGER}, 
+      #{outdate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.bookstoremanage.pojo.Details" useGeneratedKeys="true">
+    insert into details
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="eid != null">
+        eid,
+      </if>
+      <if test="inAndOut != null">
+        inAndOut,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="author != null">
+        author,
+      </if>
+      <if test="publis != null">
+        publis,
+      </if>
+      <if test="number != null">
+        number,
+      </if>
+      <if test="outdate != null">
+        outdate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="eid != null">
+        #{eid,jdbcType=INTEGER},
+      </if>
+      <if test="inAndOut != null">
+        #{inAndOut,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null">
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="publis != null">
+        #{publis,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null">
+        #{number,jdbcType=INTEGER},
+      </if>
+      <if test="outdate != null">
+        #{outdate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bookstoremanage.pojo.Details">
+    update details
+    <set>
+      <if test="eid != null">
+        eid = #{eid,jdbcType=INTEGER},
+      </if>
+      <if test="inAndOut != null">
+        inAndOut = #{inAndOut,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null">
+        author = #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="publis != null">
+        publis = #{publis,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null">
+        number = #{number,jdbcType=INTEGER},
+      </if>
+      <if test="outdate != null">
+        outdate = #{outdate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bookstoremanage.pojo.Details">
+    update details
+    set eid = #{eid,jdbcType=INTEGER},
+      inAndOut = #{inAndOut,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
+      publis = #{publis,jdbcType=VARCHAR},
+      number = #{number,jdbcType=INTEGER},
+      outdate = #{outdate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
