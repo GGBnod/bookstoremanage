@@ -28,10 +28,8 @@ import java.util.List;
 public class BookController {
     @Autowired
     CategoryService categoryService;
-
     @Autowired
     MinceService minceService;
-
     @Autowired
     BookService bookService;
 
